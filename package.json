@@ -4,8 +4,6 @@
   "description": "Express middleware that creates all the CRUD endpoints for a mongoose model.",
   "main": "lib/crud.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node server.js --exec babel-node --presets es2015,stage-2",
     "build": "babel --presets es2015 crud.js --out-dir lib --ignore test.js"
   },
   "keywords": [
