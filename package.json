@@ -1,0 +1,29 @@
+{
+  "name": "mongoose-crud",
+  "version": "0.0.1",
+  "description": "Express middleware that creates all the CRUD endpoints for a mongoose model.",
+  "main": "lib/crud.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel-node server.js --exec babel-node --presets es2015,stage-2",
+    "build": "babel --presets es2015 crud.js --out-dir lib --ignore test.js"
+  },
+  "keywords": [
+    "MongooseJS",
+    "MongoDB",
+    "Express",
+    "CRUD"
+  ],
+  "author": "Weston <Weston@blazingsolutions.net>",
+  "license": "MIT",
+  "dependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongo-querystring": "^4.1.1",
+    "mongoose": "^4.12.1"
+  }
+}
