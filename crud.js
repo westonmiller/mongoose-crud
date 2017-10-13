@@ -3,15 +3,17 @@ import bodyParser from 'body-parser';
 import MongoQS from 'mongo-querystring';
 
 class Crud {
-  constructor(model) {
+  constructor(model, options) {
     this.model = model;
+    this.options = options;
+
+    console.log(this.options)
 
     this.router = Router();
 
     this.queryString = new MongoQS();
 
     this.routes = [bodyParser.json(), this.router];
-
 
     this._setupGet();
     this._setupPost();
@@ -21,8 +23,9 @@ class Crud {
 
   _setupGet() {
     this.router.get('/', (request, response) => {
-      const query = this.queryString.parse(request.query)
-      this.model.find(query, (error, items) => { this._respond(response, error, items, 200)});
+      const query = this.queryString.parse(request.query);
+      const excludes = this._excludes();
+      this.model.find(query, excludes, (error, items) => { this._respond(response, error, items, 200)});
     });
 
     this.router.get('/:id', (request, response) => {
@@ -63,6 +66,16 @@ class Crud {
     } else {
       return response.status(goodStatusCode).send(responseItem);
     }
+  }
+
+  _excludes() {
+    let excludes = {}
+    if (this.options && this.options.exclude) {
+      this.options.exclude.forEach((excludeString) => {
+        excludes[excludeString] = 0
+      });
+    }
+    return excludes
   }
 }
 
