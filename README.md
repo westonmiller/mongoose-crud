@@ -12,12 +12,18 @@ $ npm install mongoose-crud --save
 
 ## API
 ```javascript
-import Crud from 'mongoose-crud';
+import Crud from 'mongoose-express-crud';
 ```
 
-### new Crud(**Mongoose Model**);
+### new Crud(**Mongoose Model**, options);
 ```javacript
-const crud = new Crud(MongooseModel);
+const crud = new Crud(MongooseModel, options(optional));
+```
+#### Options
+```javascript
+{
+  exludes: ['password'] //array of properies, that won't be returned from the model
+}
 ```
 
 ## Example
