@@ -3,15 +3,14 @@ import bodyParser from 'body-parser';
 import MongoQS from 'mongo-querystring';
 
 class Crud {
-  constructor(model, basePathName) {
+  constructor(model) {
     this.model = model;
-    this.basePathName = basePathName
 
     this.router = Router();
 
     this.queryString = new MongoQS();
 
-    this.start = [bodyParser.json(), this.router];
+    this.routes = [bodyParser.json(), this.router];
 
 
     this._setupGet();

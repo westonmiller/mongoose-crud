@@ -30,9 +30,15 @@ const crud = new Crud(User);
 
 const app = express();
 
-app.use('/users', crud.start)
+app.use('/users', crud.routes)
 
 app.listen(3000, () => {
   console.log('App listening on port 3000!')
 });
 ```
+*note:* If using `require()` you must add `.default` 
+```
+var Crud = require('mongoose-crud').default
+```
+
+
