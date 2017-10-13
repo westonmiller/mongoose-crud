@@ -43,9 +43,19 @@ class Crud {
   _setupUpdate() {
     this.router.put('/:id', (request, response) => {
       this.model.findByIdAndUpdate(
-        request.params.id, 
+        request.params.id,
         request.body,
-        {new: true}, 
+        {new: true},
+        (error, updatedItem) => {
+          this._respond(response, error, updatedItem, 200);
+        });
+    });
+
+    this.router.patch('/:id', (request, response) => {
+      this.model.findByIdAndUpdate(
+        request.params.id,
+        request.body,
+        {new: true},
         (error, updatedItem) => {
           this._respond(response, error, updatedItem, 200);
         });
