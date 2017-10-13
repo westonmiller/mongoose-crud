@@ -22,7 +22,7 @@ const crud = new Crud(MongooseModel);
 
 ## Example
 ```javascript
-import Crud from 'mongoose-crud';
+import Crud from 'mongoose-express-crud';
 import express from 'express';
 import User from './models/User'; //Model for endpoints
 
