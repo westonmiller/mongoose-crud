@@ -7,12 +7,8 @@ class Crud {
     this.model = model;
     this.options = options;
 
-    console.log(this.options)
-
     this.router = Router();
-
     this.queryString = new MongoQS();
-
     this.routes = this.router;
 
     this.router.use(bodyParser.json())
@@ -31,14 +27,18 @@ class Crud {
     });
 
     this.router.get('/:id', (request, response) => {
-      this.model.findById(request.params.id, ((error, item) => { this._respond(response, error, item, 200)}));
+      const excludes = this._excludes();
+      this.model.findById(request.params.id, excludes, ((error, item) => { this._respond(response, error, item, 200)}));
     });
   }
 
   _setupPost() {
     this.router.post('/', (request, response) => {
       const item = new this.model(request.body);
-      item.save((error, newItem) => { this._respond(response, error, newItem, 201)});
+      item.save((error, newItem) => { 
+        let newEditedItem = this._removeExcludedPropertiesFrom(newItem);
+        this._respond(response, error, newEditedItem, 201);
+      });
     });
   }
 
@@ -49,7 +49,8 @@ class Crud {
         request.body,
         {new: true},
         (error, updatedItem) => {
-          this._respond(response, error, updatedItem, 200);
+          let editedItem = this._removeExcludedPropertiesFrom(updatedItem);
+          this._respond(response, error, editedItem, 200);
         });
     });
 
@@ -59,7 +60,8 @@ class Crud {
         request.body,
         {new: true},
         (error, updatedItem) => {
-          this._respond(response, error, updatedItem, 200);
+          let editedItem = this._removeExcludedPropertiesFrom(updatedItem);
+          this._respond(response, error, editedItem, 200);
         });
     });
   }
@@ -84,10 +86,19 @@ class Crud {
     let excludes = {}
     if (this.options && this.options.exclude) {
       this.options.exclude.forEach((excludeString) => {
-        excludes[excludeString] = 0
+        excludes[excludeString] = 0;
       });
     }
     return excludes
+  }
+
+  _removeExcludedPropertiesFrom(item) {
+    let newItem = item.toJSON()
+    for (let excludedProperty of this.options.exclude) {          
+      delete newItem[excludedProperty];
+    }
+
+    return newItem
   }
 }
 
