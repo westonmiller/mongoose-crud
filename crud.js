@@ -13,7 +13,9 @@ class Crud {
 
     this.queryString = new MongoQS();
 
-    this.routes = [bodyParser.json(), this.router];
+    this.routes = this.router;
+
+    this.router.use(bodyParser.json())
 
     this._setupGet();
     this._setupPost();
